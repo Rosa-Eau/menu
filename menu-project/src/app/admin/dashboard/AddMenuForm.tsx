@@ -43,31 +43,31 @@ export default function AddMenuForm({ onAdd }: Props) {
     };
 
     return (
-        <div className="space-y-3 border p-4 rounded">
+        <div className="space-y-3 border border-gray-300 dark:border-neutral-700 p-4 rounded bg-white dark:bg-neutral-900 text-black dark:text-white">
             <input
                 type="text"
                 placeholder="메뉴명"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
             <input
                 type="number"
                 placeholder="가격"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
             <textarea
                 placeholder="설명"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
             <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full border p-2 rounded"
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white"
             >
                 {CATEGORY_OPTIONS.map((option) => (
                     <option key={option} value={option}>
@@ -78,7 +78,7 @@ export default function AddMenuForm({ onAdd }: Props) {
 
             <button
                 onClick={handleSubmit}
-                className="w-full bg-blue-600 text-white p-2 rounded"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
             >
                 메뉴 등록
             </button>

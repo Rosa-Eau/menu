@@ -51,17 +51,18 @@ export default function AdminDashboardUI() {
     }, []);
 
     return (
-        <main className="max-w-xl mx-auto p-6 space-y-6">
+        <main className="max-w-xl mx-auto p-6 space-y-6 bg-white dark:bg-black text-black dark:text-white min-h-screen">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">👨‍🍳 관리자 메뉴판</h1>
                 <button
                     onClick={handleLogout}
-                    className="bg-red-600 text-white px-3 py-1 rounded"
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition"
                 >
                     로그아웃
                 </button>
             </div>
 
+            {/* AddMenuForm 내부도 다크모드 대응 필요!! */}
             <AddMenuForm onAdd={handleAdd} />
 
             <ul className="space-y-4">
