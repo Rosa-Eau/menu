@@ -1,17 +1,22 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-export const createSupabaseServerClient = async () => {
-    const cookieStore = await cookies(); // ✅ 이제는 await 필요함 (Next.js 15 기준)
-
-    return createServerClient (
+export const createSupabaseServerClient = (): SupabaseClient => {
+    const cookieStore = cookies();
+    return createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
         {
             cookies: {
-                get: async (name: string) => cookieStore.get(name)?.value,
-                set: () => { },
-                remove: () => { },
+                getAll: async () => {
+                    const store = await cookies();
+                    // Convert cookies to the expected format: { name, value }
+                    return store.getAll().map((cookie: any) => ({
+                        name: cookie.name,
+                        value: cookie.value,
+                    }));
+                },
             },
         }
     );
