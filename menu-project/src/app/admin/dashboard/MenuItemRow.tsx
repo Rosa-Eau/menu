@@ -2,20 +2,18 @@
 
 import { useState } from 'react';
 
+const CATEGORY_OPTIONS = ['피트위스키', '버번', '셰리위스키', '라이', '아일랜드위스키', '스카치위스키'];
+
 type MenuItem = {
     id: number;
     title: string;
     price: number;
     description: string;
+    category: string;
 };
 
 type Props = {
-    item: {
-        id: number;
-        title: string;
-        price: number;
-        description: string;
-    };
+    item: MenuItem;
     onDelete: (id: number) => void;
     onUpdate: (item: MenuItem) => void;
 };
@@ -24,7 +22,9 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
     const [edit, setEdit] = useState(false);
     const [form, setForm] = useState(item);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
@@ -51,6 +51,18 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
                         onChange={handleChange}
                         className="w-full border p-1 rounded"
                     />
+                    <select
+                        name="category"
+                        value={form.category}
+                        onChange={handleChange}
+                        className="w-full border p-1 rounded"
+                    >
+                        {CATEGORY_OPTIONS.map((option) => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
                     <div className="flex gap-2">
                         <button
                             onClick={() => {
@@ -76,6 +88,7 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
                             <h2 className="text-lg font-semibold">{item.title}</h2>
                             <p>{item.description}</p>
                             <p className="font-bold">{item.price.toLocaleString()}원</p>
+                            <p className="text-sm text-gray-600">카테고리: {item.category}</p>
                         </div>
                         <div className="space-x-2">
                             <button

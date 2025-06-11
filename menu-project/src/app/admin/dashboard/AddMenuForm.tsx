@@ -3,12 +3,20 @@
 import { useState } from 'react';
 
 type Props = {
-    onAdd: (item: { title: string; price: number; description: string }) => void;
+    onAdd: (item: {
+        title: string;
+        price: number;
+        description: string;
+        category: string;
+    }) => void;
 };
+
+const CATEGORY_OPTIONS = ['피트위스키', '버번', '셰리위스키', '라이', '아일랜드위스키', '스카치위스키'];
 
 export default function AddMenuForm({ onAdd }: Props) {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
+    const [category, setCategory] = useState(CATEGORY_OPTIONS[0]); // 기본값 설정
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
 
@@ -24,10 +32,12 @@ export default function AddMenuForm({ onAdd }: Props) {
             title,
             price: numericPrice,
             description: description || '',
+            category,
         });
 
         setTitle('');
         setPrice('');
+        setCategory(CATEGORY_OPTIONS[0]);
         setDescription('');
         setMessage('✅ 메뉴가 등록되었습니다!');
     };
@@ -54,6 +64,18 @@ export default function AddMenuForm({ onAdd }: Props) {
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full border p-2 rounded"
             />
+            <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full border p-2 rounded"
+            >
+                {CATEGORY_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
+
             <button
                 onClick={handleSubmit}
                 className="w-full bg-blue-600 text-white p-2 rounded"

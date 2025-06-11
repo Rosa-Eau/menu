@@ -10,17 +10,25 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async () => {
+        if (loading) return;
+
+        setLoading(true);
+        setError('');
+
         const { error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
 
+        setLoading(false);
+
         if (error) {
             setError(error.message);
         } else {
-            router.push('/admin/dashboard'); // 로그인 성공 시 관리자 페이지로 이동
+            router.push('/admin/dashboard');
         }
     };
 
@@ -34,6 +42,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border p-2 rounded"
+                disabled={loading}
             />
             <input
                 type="password"
@@ -41,13 +50,16 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full border p-2 rounded"
+                disabled={loading}
             />
             <button
                 onClick={handleLogin}
-                className="w-full bg-blue-600 text-white p-2 rounded"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white p-2 rounded disabled:opacity-50"
             >
-                로그인
+                {loading ? '로그인 중...' : '로그인'}
             </button>
+
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
         </main>
     );

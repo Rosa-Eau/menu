@@ -1,4 +1,3 @@
-// app/admin/dashboard/AdminDashboardUI.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,6 +11,7 @@ type MenuItem = {
     title: string;
     price: number;
     description: string;
+    category: string;
 };
 
 export default function AdminDashboardUI() {
@@ -21,7 +21,7 @@ export default function AdminDashboardUI() {
     const fetchMenu = async () => {
         const { data } = await supabase
             .from('menu')
-            .select('*')
+            .select('id, title, price, description, category')
             .order('created_at', { ascending: false });
         setMenuItems(data || []);
     };
