@@ -2,6 +2,13 @@
 
 import { useState } from 'react';
 
+type MenuItem = {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+};
+
 type Props = {
     item: {
         id: number;
@@ -10,7 +17,7 @@ type Props = {
         description: string;
     };
     onDelete: (id: number) => void;
-    onUpdate: (item: any) => void;
+    onUpdate: (item: MenuItem) => void;
 };
 
 export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
