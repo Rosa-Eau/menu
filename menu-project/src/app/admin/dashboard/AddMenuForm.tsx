@@ -1,0 +1,66 @@
+'use client';
+
+import { useState } from 'react';
+
+type Props = {
+    onAdd: (item: { title: string; price: number; description: string }) => void;
+};
+
+export default function AddMenuForm({ onAdd }: Props) {
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async () => {
+        const numericPrice = parseInt(price);
+
+        if (!title || !price || isNaN(numericPrice)) {
+            setMessage('❗ 메뉴명과 숫자 가격은 필수입니다.');
+            return;
+        }
+
+        await onAdd({
+            title,
+            price: numericPrice,
+            description: description || '',
+        });
+
+        setTitle('');
+        setPrice('');
+        setDescription('');
+        setMessage('✅ 메뉴가 등록되었습니다!');
+    };
+
+    return (
+        <div className="space-y-3 border p-4 rounded">
+            <input
+                type="text"
+                placeholder="메뉴명"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full border p-2 rounded"
+            />
+            <input
+                type="number"
+                placeholder="가격"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="w-full border p-2 rounded"
+            />
+            <textarea
+                placeholder="설명"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border p-2 rounded"
+            />
+            <button
+                onClick={handleSubmit}
+                className="w-full bg-blue-600 text-white p-2 rounded"
+            >
+                메뉴 등록
+            </button>
+            {message && <p className="text-sm text-center mt-2">{message}</p>}
+        </div>
+    );
+}
