@@ -53,7 +53,7 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
   }, []);
 
   return (
-    <main className="w-screen min-h-screen font-sans bg-[#fef3c7] text-black relative pb-16" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
+    <main className="w-screen min-h-screen font-sans bg-[#fef3c7] text-black relative pb-5" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
       {/* 슬라이드 영역 */}
       <div
         ref={containerRef}
