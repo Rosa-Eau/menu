@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const CATEGORY_OPTIONS = ['피트위스키', '버번', '셰리위스키', '라이', '아일랜드위스키', '스카치위스키'];
+const CATEGORY_OPTIONS = ['피트 위스키', '버번 위스키', '셰리 위스키', '라이 위스키', '아일랜드 위스키', '스카치 위스키'];
 
 type MenuItem = {
   id: number;
@@ -130,8 +130,8 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
           </div>
         </>
       ) : (
-        <div className="flex justify-between items-start gap-4">
-          <div>
+        <div className="flex justify-between gap-4">
+          <div className="flex-1">
             <h2 className="text-lg font-semibold">{item.title}</h2>
             <p className="text-sm">{item.description}</p>
             <p className="font-bold mt-1">{item.price.toLocaleString()}원</p>
@@ -145,17 +145,14 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
             {item.cask && <p className="text-xs">Cask: {item.cask}</p>}
             {item.abv && <p className="text-xs">ABV: {item.abv}</p>}
           </div>
-          <div className="space-x-2">
+          <div className="flex flex-col gap-2 justify-end items-end min-w-[90px]">
             <button
-              onClick={() => setEdit(true)}
+              onClick={() => setEdit(true)} // ✅ 이게 없어서 수정 모드가 작동 안 했음!!!
               className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded transition"
             >
               수정
             </button>
-            <button
-              onClick={() => onDelete(item.id)}
-              className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition"
-            >
+            <button className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition">
               삭제
             </button>
           </div>
