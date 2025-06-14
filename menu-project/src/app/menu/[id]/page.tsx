@@ -15,9 +15,9 @@ export default async function Page({ params }: any) {
   const detail = item.menu_detail?.[0] || {};
 
   return (
-    <main className="bg-white min-h-screen px-4 py-12 text-black font-sans">
+    <main className="bg-white min-h-screen px-4 py-12 text-black font-sans" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
       <div className="max-w-2xl mx-auto bg-white/70 rounded-xl shadow p-8 md:p-16">
-        <h1 className="text-3xl md:text-5xl font-extrabold mb-8" style={{ color: '#f59e1b' }}>{item.title}</h1>
+        <h1 className="text-3xl md:text-5xl mb-8" style={{ fontFamily: 'LOTTERIACHAB', color: '#f59e1b', fontWeight: 'normal' }}>{item.title}</h1>
         {item.description && <p className="text-lg md:text-2xl font-semibold text-gray-700 mb-8">{item.description}</p>}
         <p className="text-lg md:text-2xl font-bold text-[#b45309] mb-10">{(item.price / 10000).toFixed(1)}만원</p>
 
