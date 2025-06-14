@@ -53,51 +53,78 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
   }, []);
 
   return (
-    <main className="w-screen h-screen overflow-hidden font-sans bg-[#fef3c7] text-black relative">
+    <main className="w-screen min-h-screen font-sans bg-[#fef3c7] text-black relative">
       {/* 슬라이드 영역 */}
       <div
         ref={containerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory w-full h-full scroll-smooth"
+        className="flex overflow-x-scroll snap-x snap-mandatory w-full h-full scroll-smooth scrollbar-none"
+        style={{ scrollbarWidth: 'none' }}
       >
         {categories.map(([category, items]) => {
-          const columns: MenuItem[][] = [[], []];
-          items.forEach((item, idx) => {
-            if (columns[idx % 2].length < 10) {
-              columns[idx % 2].push(item);
-            }
-          });
+          // 세로 우선 2열 분할
+          const half = Math.ceil(items.length / 2);
+          const col1 = items.slice(0, half);
+          const col2 = items.slice(half);
 
           return (
             <section
               key={category}
-              className="min-w-full snap-start flex flex-col items-center justify-start px-4 sm:px-2 py-2 h-full"
+              className="min-w-full snap-start flex flex-col items-center justify-start px-4 sm:px-2 pt-2 h-full"
             >
               {/* 카테고리명 및 설명 */}
-              <h2 className="text-2xl md:text-4xl font-extrabold text-center text-[#78350f] mb-10 mt-2 tracking-tight drop-shadow-sm">
+              <h2 className="text-4xl md:text-4xl font-extrabold text-center text-[#78350f] mb-14 mt-12 tracking-tight drop-shadow-sm">
                 {category}
               </h2>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-5 w-full max-w-5xl">
-                {items.map((item) => (
-                  <Link href={`/menu/${item.id}`} key={item.id}>
-                    <div className="flex justify-between items-start min-w-0 text-[11px] sm:text-xs lg:text-sm cursor-pointer hover:bg-[#fde68a] rounded transition px-1">
-                      <div className="min-w-0">
-                        <div className="font-bold text-[#78350f] truncate text-[12px] sm:text-sm lg:text-base">{item.title}</div>
-                        {item.description && (
-                          <div className="text-[8px] sm:text-[9px] lg:text-[10px] text-gray-600 truncate">{item.description}</div>
-                        )}
-                      </div>
-                      <div className="font-bold text-[#b45309] text-right min-w-[32px] pl-2 text-[12px] sm:text-sm lg:text-base">
-                        {(item.price / 10000).toFixed(1)}
-                      </div>
-                    </div>
-                  </Link>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-5 w-full max-w-2xl mx-auto">
+                {[col1, col2].map((col, colIdx) => (
+                  <div key={colIdx} className="flex flex-col gap-y-5">
+                    {col.map((item) => (
+                      <Link href={`/menu/${item.id}`} key={item.id}>
+                        <div className="flex justify-between items-start min-w-0 text-[11px] sm:text-xs lg:text-sm cursor-pointer hover:bg-[#fde68a] rounded transition px-1">
+                          <div className="min-w-0">
+                            <div className="font-bold text-[#78350f] truncate text-[12px] sm:text-sm lg:text-base">{item.title}</div>
+                            {item.description && (
+                              <div className="text-[8px] sm:text-[9px] lg:text-[10px] text-gray-600 truncate">{item.description}</div>
+                            )}
+                          </div>
+                          <div className="font-bold text-[#b45309] text-right min-w-[32px] pl-2 text-[12px] sm:text-sm lg:text-base">
+                            {(item.price / 10000).toFixed(1)}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             </section>
           );
         })}
       </div>
+      {/* ◀ 버튼 (PC에서만 보임) */}
+      <button
+        onClick={() => scrollToIndex(index - 1)}
+        disabled={index === 0}
+        className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 items-center justify-center bg-[#78350f] text-white rounded-full w-10 h-10 z-20 disabled:opacity-30 shadow-lg"
+        style={{ display: 'flex' }}
+      >
+        <span className="mx-auto text-2xl">◀</span>
+      </button>
+
+      {/* ▶ 버튼 (PC에서만 보임) */}
+      <button
+        onClick={() => scrollToIndex(index + 1)}
+        disabled={index === categories.length - 1}
+        className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 items-center justify-center bg-[#78350f] text-white rounded-full w-10 h-10 z-20 disabled:opacity-30 shadow-lg"
+        style={{ display: 'flex' }}
+      >
+        <span className="mx-auto text-2xl">▶</span>
+      </button>
+      <style jsx global>{`
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </main>
   );
 }

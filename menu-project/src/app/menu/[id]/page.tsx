@@ -17,11 +17,11 @@ export default async function Page({ params }: any) {
   return (
     <main className="bg-white min-h-screen px-4 py-12 text-black font-sans">
       <div className="max-w-2xl mx-auto bg-white/70 rounded-xl shadow p-8 md:p-16">
-        <h1 className="text-2xl md:text-3xl font-extrabold mb-6" style={{ color: '#f59e1b' }}>{item.title}</h1>
-        {item.description && <p className="text-sm md:text-base text-gray-700 mb-6">{item.description}</p>}
-        <p className="text-base md:text-lg font-bold text-[#b45309] mb-8">{(item.price / 10000).toFixed(1)}만원</p>
+        <h1 className="text-3xl md:text-5xl font-extrabold mb-8" style={{ color: '#f59e1b' }}>{item.title}</h1>
+        {item.description && <p className="text-lg md:text-2xl font-semibold text-gray-700 mb-8">{item.description}</p>}
+        <p className="text-lg md:text-2xl font-bold text-[#b45309] mb-10">{(item.price / 10000).toFixed(1)}만원</p>
 
-        <ul className="space-y-3 mb-10 text-xs md:text-sm">
+        <ul className="space-y-4 mb-12 text-sm md:text-lg">
           {detail.abv && (
             <li><span className="font-bold">• 도수:</span> {detail.abv}</li>
           )}
@@ -43,9 +43,9 @@ export default async function Page({ params }: any) {
         </ul>
 
         {detail.info && (
-          <div className="mt-10">
-            <div className="font-bold mb-3 text-xs md:text-sm">• 제품설명</div>
-            <div className="text-xs md:text-sm text-gray-800 whitespace-pre-line">{detail.info}</div>
+          <div className="mt-12">
+            <div className="font-bold mb-4 text-base md:text-lg">• 제품설명</div>
+            <div className="text-sm md:text-lg text-gray-800 whitespace-pre-line">{detail.info}</div>
           </div>
         )}
       </div>
