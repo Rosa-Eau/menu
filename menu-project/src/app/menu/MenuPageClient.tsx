@@ -73,7 +73,7 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
             >
               {/* 카테고리명 및 설명 */}
               <h2
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-14 mt-12 tracking-tight drop-shadow-sm px-4 sm:px-8 md:px-16"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-10 mt-8 tracking-tight drop-shadow-sm px-4 sm:px-8 md:px-16"
                 style={{ fontFamily: 'LOTTERIACHAB', color: '#752B22' }}
               >
                 {category}
