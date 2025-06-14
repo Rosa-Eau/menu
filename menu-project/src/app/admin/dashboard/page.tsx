@@ -1,17 +1,14 @@
 // app/admin/dashboard/page.tsx
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import AdminDashboardUI from './AdminDashboardUI';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
+import AdminDashboardUI from "./AdminDashboardUI";
 
 export default async function AdminDashboardPage() {
-    const supabase = await createSupabaseServerClient();
+    const session = await getServerSession(authOptions);
 
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-        redirect('/admin/login');
+    if (!session) {
+        redirect("/admin/login");
     }
 
     return <AdminDashboardUI />;

@@ -35,7 +35,7 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
   };
 
   return (
-    <li className="border border-gray-300 dark:border-neutral-700 p-4 rounded space-y-2 bg-white dark:bg-neutral-900 text-black dark:text-white">
+    <li className="border border-gray-300 dark:border-neutral-700 p-4 rounded space-y-2 bg-white dark:bg-neutral-900 text-black dark:text-white" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
       {edit ? (
         <>
           <input

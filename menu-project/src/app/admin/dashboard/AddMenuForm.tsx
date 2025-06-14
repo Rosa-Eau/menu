@@ -14,10 +14,10 @@ type Props = {
         palate?: string;
         finish?: string;
         info?: string;
-    }) => void;
+    }) => Promise<{ success: boolean; error?: string }>;
 };
 
-const CATEGORY_OPTIONS = ['피트', '버번', '셰리', '라이', '아일랜드', '스카치'];
+const CATEGORY_OPTIONS = ['피트 위스키', '버번 위스키', '셰리 위스키', '라이 위스키', '아일랜드 위스키', '스카치 위스키'];
 
 export default function AddMenuForm({ onAdd }: Props) {
     const [title, setTitle] = useState('');
@@ -40,7 +40,7 @@ export default function AddMenuForm({ onAdd }: Props) {
             return;
         }
 
-        await onAdd({
+        const result = await onAdd({
             title,
             price: numericPrice,
             description: description || '',
@@ -53,21 +53,25 @@ export default function AddMenuForm({ onAdd }: Props) {
             info: info || '',
         });
 
-        setTitle('');
-        setPrice('');
-        setCategory(CATEGORY_OPTIONS[0]);
-        setDescription('');
-        setAbv('');
-        setCask('');
-        setNose('');
-        setPalate('');
-        setFinish('');
-        setInfo('');
-        setMessage('✅ 메뉴가 등록되었습니다!');
+        if (result?.success) {
+            setTitle('');
+            setPrice('');
+            setCategory(CATEGORY_OPTIONS[0]);
+            setDescription('');
+            setAbv('');
+            setCask('');
+            setNose('');
+            setPalate('');
+            setFinish('');
+            setInfo('');
+            setMessage('✅ 메뉴가 등록되었습니다!');
+        } else {
+            setMessage('❌ 메뉴 등록에 실패했습니다.');
+        }
     };
 
     return (
-        <div className="space-y-3 border border-gray-300 dark:border-neutral-700 p-4 rounded bg-white dark:bg-neutral-900 text-black dark:text-white">
+        <div className="space-y-3 border border-gray-300 dark:border-neutral-700 p-4 rounded bg-white dark:bg-neutral-900 text-black dark:text-white" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
             <input
                 type="text"
                 placeholder="메뉴명"

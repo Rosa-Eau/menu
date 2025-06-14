@@ -92,7 +92,7 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
                             )}
                           </div>
                           <div className="font-bold text-[#b45309] text-right min-w-[32px] pl-2 text-sm sm:text-base md:text-lg lg:text-xl">
-                            {(item.price / 10000).toFixed(1)}
+                            {(item.price / 1000).toFixed(1)}
                           </div>
                         </div>
                       </Link>

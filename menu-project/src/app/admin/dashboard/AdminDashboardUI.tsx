@@ -54,9 +54,12 @@ export default function AdminDashboardUI() {
                 category: newItem.category,
             }
         ]).select('id');
-        if (error || !data || !data[0]?.id) return;
+        if (error || !data || !data[0]?.id) {
+            console.error('menu insert error:', error);
+            return { success: false, error: error?.message || 'Unknown error' };
+        }
         const menuId = data[0].id;
-        await supabase.from('menu_detail').insert([
+        const { error: detailError } = await supabase.from('menu_detail').insert([
             {
                 menu_id: menuId,
                 abv: newItem.abv,
@@ -67,7 +70,12 @@ export default function AdminDashboardUI() {
                 info: newItem.info,
             }
         ]);
+        if (detailError) {
+            console.error('menu_detail insert error:', detailError);
+            return { success: false, error: detailError?.message || 'Unknown error' };
+        }
         fetchMenu();
+        return { success: true };
     };
 
     const handleUpdate = async (item: MenuItem) => {
@@ -105,7 +113,7 @@ export default function AdminDashboardUI() {
     }, []);
 
     return (
-        <main className="max-w-xl mx-auto p-6 space-y-6 bg-white dark:bg-black text-black dark:text-white min-h-screen">
+        <main className="max-w-xl mx-auto p-6 space-y-6 bg-white dark:bg-black text-black dark:text-white min-h-screen" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">👨‍🍳 관리자 메뉴판</h1>
                 <button

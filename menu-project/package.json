@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "bcryptjs": "^3.0.2",
     "next": "15.3.3",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/next-auth": "^3.13.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
