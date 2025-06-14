@@ -53,7 +53,7 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
   }, []);
 
   return (
-    <main className="w-screen min-h-screen font-sans bg-[#fef3c7] text-black relative" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
+    <main className="w-screen min-h-screen font-sans bg-[#fef3c7] text-black relative pb-16" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
       {/* 슬라이드 영역 */}
       <div
         ref={containerRef}
@@ -104,25 +104,6 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
           );
         })}
       </div>
-      {/* ◀ 버튼 (PC에서만 보임) */}
-      <button
-        onClick={() => scrollToIndex(index - 1)}
-        disabled={index === 0}
-        className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 items-center justify-center bg-[#78350f] text-white rounded-full w-10 h-10 z-20 disabled:opacity-30 shadow-lg"
-        style={{ display: 'flex' }}
-      >
-        <span className="mx-auto text-2xl">◀</span>
-      </button>
-
-      {/* ▶ 버튼 (PC에서만 보임) */}
-      <button
-        onClick={() => scrollToIndex(index + 1)}
-        disabled={index === categories.length - 1}
-        className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 items-center justify-center bg-[#78350f] text-white rounded-full w-10 h-10 z-20 disabled:opacity-30 shadow-lg"
-        style={{ display: 'flex' }}
-      >
-        <span className="mx-auto text-2xl">▶</span>
-      </button>
       <style jsx global>{`
         .scrollbar-none::-webkit-scrollbar {
           display: none;
