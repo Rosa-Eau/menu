@@ -12,6 +12,13 @@ type MenuItem = {
     price: number;
     description: string;
     category: string;
+    abv?: string;
+    cask?: string;
+    nose?: string;
+    palate?: string;
+    finish?: string;
+    info?: string;
+    detail_id?: number;
 };
 
 export default function AdminDashboardUI() {
@@ -21,18 +28,65 @@ export default function AdminDashboardUI() {
     const fetchMenu = async () => {
         const { data } = await supabase
             .from('menu')
-            .select('id, title, price, description, category')
+            .select('id, title, price, description, category, menu_detail:menu_detail(id, abv, cask, nose, palate, finish, info)')
             .order('created_at', { ascending: false });
-        setMenuItems(data || []);
+        const items = (data || []).map((item: any) => ({
+            ...item,
+            ...(item.menu_detail?.[0] && {
+                abv: item.menu_detail[0].abv,
+                cask: item.menu_detail[0].cask,
+                nose: item.menu_detail[0].nose,
+                palate: item.menu_detail[0].palate,
+                finish: item.menu_detail[0].finish,
+                info: item.menu_detail[0].info,
+                detail_id: item.menu_detail[0].id,
+            })
+        }));
+        setMenuItems(items);
     };
 
-    const handleAdd = async (newItem: Omit<MenuItem, 'id'>) => {
-        const { error } = await supabase.from('menu').insert([newItem]);
-        if (!error) fetchMenu();
+    const handleAdd = async (newItem: Omit<MenuItem, 'id' | 'detail_id'>) => {
+        const { data, error } = await supabase.from('menu').insert([
+            {
+                title: newItem.title,
+                price: newItem.price,
+                description: newItem.description,
+                category: newItem.category,
+            }
+        ]).select('id');
+        if (error || !data || !data[0]?.id) return;
+        const menuId = data[0].id;
+        await supabase.from('menu_detail').insert([
+            {
+                menu_id: menuId,
+                abv: newItem.abv,
+                cask: newItem.cask,
+                nose: newItem.nose,
+                palate: newItem.palate,
+                finish: newItem.finish,
+                info: newItem.info,
+            }
+        ]);
+        fetchMenu();
     };
 
     const handleUpdate = async (item: MenuItem) => {
-        await supabase.from('menu').update(item).eq('id', item.id);
+        await supabase.from('menu').update({
+            title: item.title,
+            price: item.price,
+            description: item.description,
+            category: item.category,
+        }).eq('id', item.id);
+        if (item.detail_id) {
+            await supabase.from('menu_detail').update({
+                abv: item.abv,
+                cask: item.cask,
+                nose: item.nose,
+                palate: item.palate,
+                finish: item.finish,
+                info: item.info,
+            }).eq('id', item.detail_id);
+        }
         fetchMenu();
     };
 

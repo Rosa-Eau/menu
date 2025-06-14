@@ -10,6 +10,12 @@ type MenuItem = {
   price: number;
   description: string;
   category: string;
+  abv?: string;
+  cask?: string;
+  nose?: string;
+  palate?: string;
+  finish?: string;
+  info?: string;
 };
 
 type Props = {
@@ -63,6 +69,48 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
               </option>
             ))}
           </select>
+          <input
+            name="abv"
+            placeholder="ABV (도수)"
+            value={form.abv || ''}
+            onChange={handleChange}
+            className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 mt-1"
+          />
+          <input
+            name="cask"
+            placeholder="Cask (숙성 캐스크)"
+            value={form.cask || ''}
+            onChange={handleChange}
+            className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 mt-1"
+          />
+          <input
+            name="nose"
+            placeholder="Nose (향)"
+            value={form.nose || ''}
+            onChange={handleChange}
+            className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 mt-1"
+          />
+          <input
+            name="palate"
+            placeholder="Palate (맛)"
+            value={form.palate || ''}
+            onChange={handleChange}
+            className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 mt-1"
+          />
+          <input
+            name="finish"
+            placeholder="Finish (피니시)"
+            value={form.finish || ''}
+            onChange={handleChange}
+            className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 mt-1"
+          />
+          <textarea
+            name="info"
+            placeholder="Info (세부 정보)"
+            value={form.info || ''}
+            onChange={handleChange}
+            className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 mt-1"
+          />
           <div className="flex gap-2 pt-1">
             <button
               onClick={() => {
@@ -90,6 +138,12 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               카테고리: {item.category}
             </p>
+            {item.info && <p className="text-xs mt-1">Info: {item.info}</p>}
+            {item.finish && <p className="text-xs">Finish: {item.finish}</p>}
+            {item.palate && <p className="text-xs">Palate: {item.palate}</p>}
+            {item.nose && <p className="text-xs">Nose: {item.nose}</p>}
+            {item.cask && <p className="text-xs">Cask: {item.cask}</p>}
+            {item.abv && <p className="text-xs">ABV: {item.abv}</p>}
           </div>
           <div className="space-x-2">
             <button

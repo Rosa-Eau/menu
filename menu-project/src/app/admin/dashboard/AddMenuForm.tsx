@@ -8,10 +8,16 @@ type Props = {
         price: number;
         description: string;
         category: string;
+        abv?: string;
+        cask?: string;
+        nose?: string;
+        palate?: string;
+        finish?: string;
+        info?: string;
     }) => void;
 };
 
-const CATEGORY_OPTIONS = ['피트위스키', '버번', '셰리위스키', '라이', '아일랜드위스키', '스카치위스키'];
+const CATEGORY_OPTIONS = ['피트', '버번', '셰리', '라이', '아일랜드', '스카치'];
 
 export default function AddMenuForm({ onAdd }: Props) {
     const [title, setTitle] = useState('');
@@ -19,6 +25,12 @@ export default function AddMenuForm({ onAdd }: Props) {
     const [category, setCategory] = useState(CATEGORY_OPTIONS[0]); // 기본값 설정
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
+    const [abv, setAbv] = useState('');
+    const [cask, setCask] = useState('');
+    const [nose, setNose] = useState('');
+    const [palate, setPalate] = useState('');
+    const [finish, setFinish] = useState('');
+    const [info, setInfo] = useState('');
 
     const handleSubmit = async () => {
         const numericPrice = parseInt(price);
@@ -33,12 +45,24 @@ export default function AddMenuForm({ onAdd }: Props) {
             price: numericPrice,
             description: description || '',
             category,
+            abv: abv || '',
+            cask: cask || '',
+            nose: nose || '',
+            palate: palate || '',
+            finish: finish || '',
+            info: info || '',
         });
 
         setTitle('');
         setPrice('');
         setCategory(CATEGORY_OPTIONS[0]);
         setDescription('');
+        setAbv('');
+        setCask('');
+        setNose('');
+        setPalate('');
+        setFinish('');
+        setInfo('');
         setMessage('✅ 메뉴가 등록되었습니다!');
     };
 
@@ -75,7 +99,47 @@ export default function AddMenuForm({ onAdd }: Props) {
                     </option>
                 ))}
             </select>
-
+            <input
+                type="text"
+                placeholder="ABV (도수)"
+                value={abv}
+                onChange={(e) => setAbv(e.target.value)}
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+            <input
+                type="text"
+                placeholder="Cask (숙성 캐스크)"
+                value={cask}
+                onChange={(e) => setCask(e.target.value)}
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+            <input
+                type="text"
+                placeholder="Nose (향)"
+                value={nose}
+                onChange={(e) => setNose(e.target.value)}
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+            <input
+                type="text"
+                placeholder="Palate (맛)"
+                value={palate}
+                onChange={(e) => setPalate(e.target.value)}
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+            <input
+                type="text"
+                placeholder="Finish (피니시)"
+                value={finish}
+                onChange={(e) => setFinish(e.target.value)}
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
+            <textarea
+                placeholder="Info (세부 정보)"
+                value={info}
+                onChange={(e) => setInfo(e.target.value)}
+                className="w-full border border-gray-300 dark:border-neutral-700 p-2 rounded bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            />
             <button
                 onClick={handleSubmit}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
