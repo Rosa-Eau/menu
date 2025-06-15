@@ -19,7 +19,19 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
   }, {});
 
   // 각 카테고리별로 title 기준 가나다순 정렬
-  Object.values(grouped).forEach(arr => arr.sort((a, b) => a.title.localeCompare(b.title, 'ko')));
+  Object.values(grouped).forEach(arr => arr.sort((a, b) => {
+    // 앞의 세 글자 비교
+    const aPrefix = a.title.slice(0, 3);
+    const bPrefix = b.title.slice(0, 3);
+    
+    // 앞의 세 글자가 같으면 가격순으로 정렬
+    if (aPrefix === bPrefix) {
+      return a.price - b.price;
+    }
+    
+    // 앞의 세 글자가 다르면 가나다순으로 정렬
+    return a.title.localeCompare(b.title, 'ko');
+  }));
 
   const categories = Object.entries(grouped);
   const containerRef = useRef<HTMLDivElement>(null);

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import supabase from '@/lib/supabase/client';
 import AddMenuForm from './AddMenuForm';
 import MenuItemRow from './MenuItemRow';
+import { signOut as nextAuthSignOut } from 'next-auth/react';
 
 type MenuItem = {
     id: number;
@@ -104,25 +105,8 @@ export default function AdminDashboardUI() {
     };
 
     const handleLogout = async () => {
-        try {
-            // Supabase 세션 제거
-            const { error } = await supabase.auth.signOut();
-            if (error) throw error;
-
-            // 로컬 스토리지의 Supabase 관련 데이터 제거
-            localStorage.removeItem('supabase.auth.token');
-            localStorage.removeItem('sb-auth-token');
-            
-            // 세션 스토리지도 정리
-            sessionStorage.removeItem('supabase.auth.token');
-            sessionStorage.removeItem('sb-auth-token');
-
-            // 페이지 리다이렉트
-            router.push('/admin/login');
-            router.refresh(); // Next.js 캐시 초기화
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
+        await supabase.auth.signOut();
+        await nextAuthSignOut({ callbackUrl: '/admin/login' });
     };
 
     useEffect(() => {
