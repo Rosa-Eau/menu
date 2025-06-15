@@ -147,12 +147,15 @@ export default function MenuItemRow({ item, onDelete, onUpdate }: Props) {
           </div>
           <div className="flex flex-col gap-2 justify-end items-end min-w-[90px]">
             <button
-              onClick={() => setEdit(true)} // ✅ 이게 없어서 수정 모드가 작동 안 했음!!!
+              onClick={() => setEdit(true)}
               className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded transition"
             >
               수정
             </button>
-            <button className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition">
+            <button 
+              onClick={() => onDelete(item.id)}
+              className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition"
+            >
               삭제
             </button>
           </div>
