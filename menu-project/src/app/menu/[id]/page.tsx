@@ -17,7 +17,7 @@ export default async function Page({ params }: any) {
   return (
     <main className="bg-white min-h-screen px-4 py-12 text-black font-sans flex items-center justify-center" style={{ fontFamily: 'Chosunilbo_myungjo' }}>
       <div className="max-w-2xl mx-auto bg-white/70 rounded-xl shadow p-8 md:p-16">
-        <h1 className="text-3xl md:text-5xl mb-8" style={{ fontFamily: 'LOTTERIACHAB', color: '#f59e1b', fontWeight: 'normal' }}>{item.title}</h1>
+        <h1 className="text-3xl md:text-5xl mb-8" text-extrabold tracking-tighter style={{ fontFamily: 'GabiaCheongyeon', color: '#f59e1b', letterSpacing: '-0.15em'}}>{item.title}</h1>
         {item.description && <p className="text-lg md:text-2xl font-semibold text-gray-700 mb-8">{item.description}</p>}
         <p className="text-lg md:text-2xl font-bold text-[#b45309] mb-10">{(item.price / 1000).toFixed(1)}</p>
 

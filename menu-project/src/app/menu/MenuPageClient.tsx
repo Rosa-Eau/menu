@@ -20,17 +20,10 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
 
   // 각 카테고리별로 title 기준 가나다순 정렬
   Object.values(grouped).forEach(arr => arr.sort((a, b) => {
-    // 앞의 세 글자 비교
-    const aPrefix = a.title.slice(0, 3);
-    const bPrefix = b.title.slice(0, 3);
-    
-    // 앞의 세 글자가 같으면 가격순으로 정렬
-    if (aPrefix === bPrefix) {
-      return a.price - b.price;
-    }
-    
-    // 앞의 세 글자가 다르면 가나다순으로 정렬
-    return a.title.localeCompare(b.title, 'ko');
+    // 먼저 제목으로 비교
+    const titleCompare = a.title.localeCompare(b.title, 'ko');
+    // 제목이 같으면 가격으로 비교 (낮은 가격이 먼저)
+    return titleCompare !== 0 ? titleCompare : a.price - b.price;
   }));
 
   const categories = Object.entries(grouped);
@@ -73,64 +66,51 @@ export default function MenuPageClient({ menuItems }: { menuItems: MenuItem[] })
         style={{ scrollbarWidth: 'none' }}
       >
         {categories.map(([category, items]) => {
-          // 10개씩 열로 나누기
-          const itemsPerColumn = 10;
-          const columns = [];
-          for (let i = 0; i < items.length; i += itemsPerColumn) {
-            columns.push(items.slice(i, i + itemsPerColumn));
-          }
+          // 20개씩 3열로 나누기 (왼쪽부터 채움)
+          const itemsPerColumn = 20;
+          const columns = [[], [], []] as MenuItem[][];
+          items.forEach((item, idx) => {
+            columns[Math.floor(idx / itemsPerColumn)]?.push(item);
+          });
 
-          // 20개씩 페이지로 나누기
-          const itemsPerPage = 20;
-          const pages = [];
-          for (let i = 0; i < items.length; i += itemsPerPage) {
-            pages.push(items.slice(i, i + itemsPerPage));
-          }
-
-          return pages.map((pageItems, pageIndex) => {
-            // 현재 페이지의 아이템들을 10개씩 열로 나누기
-            const pageColumns = [];
-            for (let i = 0; i < pageItems.length; i += itemsPerColumn) {
-              pageColumns.push(pageItems.slice(i, i + itemsPerColumn));
-            }
-
-            return (
-              <section
-                key={`${category}-${pageIndex}`}
-                className="min-w-full snap-start flex flex-col items-center justify-start px-4 sm:px-8 md:px-16 pt-2"
+          return (
+            <section
+              key={category}
+              className="min-w-full snap-start flex flex-col items-center justify-start px-4 sm:px-8 md:px-14 pt-4 mb-0 pb-4"
+            >
+              {/* 카테고리명 및 설명 */}
+              <h2
+                className="text-4xl sm:text-5xl text-extrabold md:text-6xl lg:text-7xl text-center mb-8 tracking-tighter px-4 sm:px-6 md:px-14"
+                style={{ fontFamily: 'GabiaCheongyeon', color: 'black', letterSpacing: '-0.15em' }}
               >
-                {/* 카테고리명 및 설명 */}
-                <h2
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-10 mt-8 tracking-tight drop-shadow-sm px-4 sm:px-8 md:px-16"
-                  style={{ fontFamily: 'LOTTERIACHAB', color: '#752B22' }}
-                >
-                  {category}
-                </h2>
+                {category}
+              </h2>
 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-5 w-full max-w-2xl mx-auto">
-                  {pageColumns.map((col, colIdx) => (
-                    <div key={colIdx} className="flex flex-col gap-y-5 sm:gap-y-6 md:gap-y-8">
-                      {col.map((item) => (
-                        <Link href={`/menu/${item.id}`} key={item.id}>
-                          <div className="flex justify-between items-start min-w-0 text-xs sm:text-sm md:text-base lg:text-lg cursor-pointer hover:bg-[#fde68a] rounded transition px-1">
-                            <div className="min-w-0">
-                              <div className="font-extrabold text-black truncate text-sm sm:text-base md:text-lg lg:text-xl">{item.title}</div>
+              <div className="grid grid-cols-3 gap-x-1 gap-y-1 w-full max-w-4xl mx-auto">
+                {columns.map((col, colIdx) => (
+                  <div key={colIdx} className="flex flex-col gap-y-0.5 sm:gap-y-1 md:gap-y-1.5">
+                    {col.map((item) => (
+                      <Link href={`/menu/${item.id}`} key={item.id}>
+                        <div className="flex justify-between items-start min-w-0 text-xs sm:text-sm md:text-base lg:text-lg cursor-pointer hover:bg-[#fde68a] rounded-sm transition px-0.5 py-0.5 m-1">
+                          <div className="min-w-0">
+                            <div className="mb-0 p-0 leading-none">
+                              <div className="font-extrabold text-black truncate text-[8.5px] sm:text-[10.5px] md:text-[12.5px] lg:text-[14.5px] m-0 p-0 leading-none">{item.title}</div>
                               {item.description && (
-                                <div className="text-[9px] sm:text-xs md:text-sm lg:text-base text-gray-600 truncate">{item.description}</div>
+                                <div className="text-[5.5px] sm:text-[7.5px] md:text-[8.5px] lg:text-[9.5px] text-gray-600 break-words whitespace-normal mt-1 p-0 leading-none line-clamp-1">{item.description}</div>
                               )}
                             </div>
-                            <div className="font-bold text-[#b45309] text-right min-w-[32px] pl-2 text-sm sm:text-base md:text-lg lg:text-xl">
-                              {(item.price / 1000).toFixed(1)}
-                            </div>
                           </div>
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            );
-          });
+                          <div className="font-bold text-[#b45309] text-right min-w-[24px] pl-1 text-[8.5px] sm:text-[10.5px] md:text-[12.5px] lg:text-[14.5px]">
+                            {(item.price / 1000).toFixed(1)}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </section>
+          );
         })}
       </div>
       <style jsx global>{`
